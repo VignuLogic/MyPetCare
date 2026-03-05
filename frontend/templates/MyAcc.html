@@ -1,0 +1,124 @@
+<html>
+<head>
+
+<title>My Account - PetCare</title>
+
+<style>
+
+/* Page background */
+body{
+    font-family:Arial;
+    background:#f4f4f4;
+    margin:0;
+}
+
+/* Top header bar */
+header{
+    background:#2e7d32;
+    color:white;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* Main dashboard container */
+.container{
+    width:900px;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:10px;
+}
+
+/* Feature cards */
+.card{
+    background:#fafafa;
+    padding:20px;
+    margin-top:20px;
+    border-radius:8px;
+}
+
+/* Buttons */
+button{
+    padding:10px 20px;
+    background:#e7b3b3;
+    border:none;
+    cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<!-- Dashboard Title -->
+<h2>My PetCare Dashboard</h2>
+
+<!-- Logout button -->
+<a href="/logout" style="color:white;">Logout</a>
+
+</header>
+
+
+<div class="container">
+
+<!-- Show logged in user's name -->
+<h3>Welcome {{ user_name }} 🐾</h3>
+
+
+<!-- Add Pet Section -->
+<div class="card">
+
+<h4>Add New Pet</h4>
+
+<!-- Redirect to add pet page -->
+<a href="/addpet">
+<button>Add Pet</button>
+</a>
+
+</div>
+
+
+<!-- Pets List Section -->
+<div class="card">
+
+<h4>Your Pets</h4>
+
+<!-- Later we will load pets from database -->
+<p>Pet list will appear here.</p>
+
+</div>
+
+
+<!-- Grooming Booking Section -->
+<div class="card">
+
+<h4>Book Grooming</h4>
+
+<a href="/grooming">
+<button>Book Grooming</button>
+</a>
+
+</div>
+
+
+<!-- Vaccination Tracker -->
+<div class="card">
+
+<h4>Vaccination Tracker</h4>
+
+<a href="/vaccination">
+<button>View Vaccination</button>
+</a>
+
+</div>
+
+
+</div>
+
+</body>
+</html>

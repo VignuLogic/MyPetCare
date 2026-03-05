@@ -1,0 +1,77 @@
+<html>
+<head>
+
+<title>Login</title>
+
+<style>
+
+body{
+background:linear-gradient(to right,#ffdde1,#ee9ca7);
+font-family:Arial;
+}
+
+.poster{
+display:grid;
+grid-template-columns:1fr 1fr;
+width:700px;
+margin:100px auto;
+background:white;
+border-radius:20px;
+}
+
+img{
+width:200px;
+margin:60px;
+}
+
+.login-main{
+padding:40px;
+}
+
+input{
+padding:8px;
+width:100%;
+}
+
+button{
+padding:10px;
+background:#e7b3b3;
+border:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="poster">
+
+<div>
+<img src="/images/LOGO-My PetCare.png">
+</div>
+
+<div class="login-main">
+
+<h1>Login</h1>
+
+<form action="/login" method="POST">
+
+<label>UserName</label>
+<input type="text" name="username" required>
+
+<label>Password</label>
+<input type="password" name="password" required>
+
+<button type="submit">Login</button>
+
+<p>New User? <a href="/signup">Signup</a></p>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>Signup</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.popup {
+    width: 500px;
+    background: #fff;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 8px;
+}
+
+.logo{
+    text-align:center;
+}
+
+.logo img{
+    width:120px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px;
+    width:100%;
+    background:#e7b3b3;
+    border:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="popup">
+
+<div class="logo">
+<img src="/images/LOGO-My PetCare.png">
+</div>
+
+<h2>Sign up to The PetCare account</h2>
+
+<form action="/signup" method="POST">
+
+<label>First Name</label>
+<input type="text" name="first_name" required>
+
+<label>Last Name</label>
+<input type="text" name="last_name" required>
+
+<label>Mobile</label>
+<input type="number" name="mobile" required>
+
+<label>Email</label>
+<input type="email" name="email" required>
+
+<label>Password</label>
+<input type="password" name="password" required>
+
+<button type="submit" class="btn">Create Account</button>
+
+<p>Already have account? <a href="/login">Login</a></p>
+
+</form>
+
+</div>
+
+</body>
+</html>
