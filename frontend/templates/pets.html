@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Your Pets - My PetCare</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#9ae4ff;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 60px;
+background:white;
+}
+
+.logo img{
+width:150px;
+}
+
+/* ACCOUNT BUTTON */
+
+.account-btn{
+padding:8px 22px;
+border:2px solid #ff6600;
+border-radius:25px;
+background:transparent;
+color:#ff6600;
+font-weight:600;
+cursor:pointer;
+text-decoration:none;
+}
+
+.account-btn:hover{
+background:#ff6600;
+color:white;
+}
+
+/* TITLE */
+
+.title{
+text-align:center;
+margin-top:40px;
+font-size:28px;
+font-weight:bold;
+}
+
+/* ADD PET BUTTON */
+
+.add-btn{
+display:block;
+width:200px;
+margin:20px auto;
+text-align:center;
+padding:12px;
+background:#ff6600;
+color:white;
+text-decoration:none;
+border-radius:6px;
+}
+
+/* PET CARDS */
+
+.pets-container{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:25px;
+margin-top:40px;
+}
+
+.pet-card{
+background:white;
+padding:20px;
+width:220px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+.delete{
+color:red;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img src="/images/LOGO-My PetCare.png">
+</div>
+
+<a href="/myaccount" class="account-btn">
+My Account
+</a>
+
+</header>
+
+
+<div class="title">
+Your Pets 🐾
+</div>
+
+<a href="/add_pet" class="add-btn">
+Add New Pet
+</a>
+
+
+<div class="pets-container">
+
+{% for pet in pets %}
+
+<div class="pet-card">
+
+<h3>{{ pet.pet_name }}</h3>
+
+<p><b>Type:</b> {{ pet.pet_type }}</p>
+<p><b>Age:</b> {{ pet.age }}</p>
+
+<a class="delete" href="/delete_pet/{{ pet.id }}">
+Delete
+</a>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

@@ -9,6 +9,7 @@ def get_db_connection():
             database="petcare"
         )
         return connection
+    
     except mysql.connector.Error as err:
         print("Database connection error:", err)
         return None

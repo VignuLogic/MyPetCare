@@ -2,9 +2,10 @@ from flask import request, render_template, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from db_config import get_db_connection
 
-
+# =========================
+# SIGNUP FUNCTION
+# =========================
 def signup():
-
     if request.method == "POST":
 
         first_name = request.form.get("first_name")
@@ -20,10 +21,10 @@ def signup():
 
         query = """
         INSERT INTO users (first_name, last_name, mobile, email, password)
-        VALUES (%s,%s,%s,%s,%s)
+        VALUES (%s, %s, %s, %s, %s)
         """
 
-        cursor.execute(query,(first_name,last_name,mobile,email,hashed_password))
+        cursor.execute(query, (first_name, last_name, mobile, email, hashed_password))
         conn.commit()
 
         cursor.close()
@@ -31,31 +32,38 @@ def signup():
 
         return redirect("/login")
 
-    return render_template("Signup.html")
+    return render_template("sign_up.html")
 
-
+# =========================
+# LOGIN FUNCTION
+# =========================
 def login():
-
     if request.method == "POST":
 
-        email = request.form.get("email")
+        name_input = request.form.get("first_name")
         password = request.form.get("password")
 
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
 
-        cursor.execute("SELECT * FROM users WHERE email=%s",(email,))
+        query = """
+        SELECT * FROM users
+        WHERE first_name = %s
+        OR CONCAT(first_name,' ',last_name) = %s
+        """
+
+        cursor.execute(query, (name_input, name_input))
         user = cursor.fetchone()
 
         cursor.close()
         conn.close()
 
-        if user and check_password_hash(user["password"],password):
+        if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["user_name"] = user["first_name"]
-            return redirect("/myaccount")
+            return redirect("/")
 
         else:
-            return "Invalid Email or Password"
+            return "Invalid name or password"
 
-    return render_template("Login.html")
+    return render_template("login.html")

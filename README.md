@@ -80,3 +80,18 @@ PetCare/
 ├── requirements.txt          # Python packages
 └── README.md                 # Project documentation
 ```
+
+
+# flow 
+Signup
+↓
+Login
+↓
+Dashboard
+↓
+Add Pet
+↓
+Manage Pet
+   ├ Health
+   ├ Grooming
+   └ Needs

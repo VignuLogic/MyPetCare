@@ -1,77 +1,99 @@
 <html>
 <head>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
 
 <style>
 
 body{
-background:linear-gradient(to right,#ffdde1,#ee9ca7);
-font-family:Arial;
+    background-color:#ffc198;
+    font-family:Arial, sans-serif;
 }
 
 .poster{
-display:grid;
-grid-template-columns:1fr 1fr;
-width:700px;
-margin:100px auto;
-background:white;
-border-radius:20px;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    margin:100px auto;
+    width:800px;
+    background:white;
+    border-radius:20px;
+    box-shadow:rgba(83,103,234,0.35) 0px 5px 15px;
 }
 
-img{
-width:200px;
-margin:60px;
+.logo img{
+    height:200px;
+    width:200px;
+    margin:80px;
 }
 
 .login-main{
-padding:40px;
+    padding:40px;
+}
+
+form{
+    display:grid;
+    gap:15px;
 }
 
 input{
-padding:8px;
-width:100%;
+    padding:8px;
 }
 
 button{
-padding:10px;
-background:#e7b3b3;
-border:none;
+    padding:10px;
+    background-color:#ffc198;
+    border:none;
+    cursor:pointer;
+}
+
+button:hover{
+    background-color:#ffb07a;
+}
+
+.forgot{
+    margin-top:10px;
+}
+
+a{
+    text-decoration:none;
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="poster">
+<main class="poster">
 
-<div>
-<img src="/images/LOGO-My PetCare.png">
+<div class="logo">
+<img src="images/LOGO-My PetCare.png" alt="logo">
 </div>
 
 <div class="login-main">
 
-<h1>Login</h1>
+
+<h2>Welcome! Log in to My PetCare</h2>
 
 <form action="/login" method="POST">
 
-<label>UserName</label>
-<input type="text" name="username" required>
+<label>First Name</label>
+<input type="text" name="first_name" required>
 
 <label>Password</label>
 <input type="password" name="password" required>
 
 <button type="submit">Login</button>
 
-<p>New User? <a href="/signup">Signup</a></p>
+<div class="forgot">
+<p>New User? <a href="/signup">Sign up</a></p>
+</div>
 
 </form>
 
 </div>
 
-</div>
+</main>
 
 </body>
 </html>

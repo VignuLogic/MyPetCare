@@ -7,7 +7,7 @@
 
 /* Page background */
 body{
-    font-family:Arial;
+    font-family: Arial;
     background:#f4f4f4;
     margin:0;
 }
@@ -16,13 +16,13 @@ body{
 header{
     background:#2e7d32;
     color:white;
-    padding:15px;
+    padding:15px 40px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
 
-/* Main dashboard container */
+/* Dashboard container */
 .container{
     width:900px;
     margin:40px auto;
@@ -37,14 +37,21 @@ header{
     padding:20px;
     margin-top:20px;
     border-radius:8px;
+    border:1px solid #eee;
 }
 
 /* Buttons */
 button{
     padding:10px 20px;
-    background:#e7b3b3;
+    background:#f2a22c;
     border:none;
     cursor:pointer;
+    color:white;
+    border-radius:5px;
+}
+
+button:hover{
+    background:#d88917;
 }
 
 </style>
@@ -55,46 +62,42 @@ button{
 
 <header>
 
-<!-- Dashboard Title -->
 <h2>My PetCare Dashboard</h2>
 
-<!-- Logout button -->
-<a href="/logout" style="color:white;">Logout</a>
+<a href="/logout" style="color:white; text-decoration:none;">Logout</a>
 
 </header>
 
 
 <div class="container">
 
-<!-- Show logged in user's name -->
-<h3>Welcome {{ user_name }} 🐾</h3>
+<!-- Logged-in user -->
+<h3>Welcome {{ user_name }} </h3>
 
 
-<!-- Add Pet Section -->
+<!-- Add Pet -->
 <div class="card">
 
 <h4>Add New Pet</h4>
 
-<!-- Redirect to add pet page -->
-<a href="/addpet">
+<a href="/add_pet">
 <button>Add Pet</button>
 </a>
 
 </div>
 
 
-<!-- Pets List Section -->
+<!-- Pets List -->
 <div class="card">
 
 <h4>Your Pets</h4>
 
-<!-- Later we will load pets from database -->
 <p>Pet list will appear here.</p>
 
 </div>
 
 
-<!-- Grooming Booking Section -->
+<!-- Grooming -->
 <div class="card">
 
 <h4>Book Grooming</h4>
@@ -106,7 +109,7 @@ button{
 </div>
 
 
-<!-- Vaccination Tracker -->
+<!-- Vaccination -->
 <div class="card">
 
 <h4>Vaccination Tracker</h4>
