@@ -5,88 +5,111 @@
 <style>
 
 body{
-margin:0;
-font-family:Arial;
-background:#9ae4ff;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fff9f1 0%, #fff1e8 100%);
+    min-height: 100vh;
 }
 
-/* HEADER */
-
-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px 60px;
-background:white;
+/* Page container */
+.page-wrapper{
+    max-width: 1100px;
+    margin: 30px auto 50px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 25px;
 }
 
-.logo img{
-width:150px;
-}
-
-/* ACCOUNT BUTTON */
-
-.account-btn{
-padding:8px 22px;
-border:2px solid #ff6600;
-border-radius:25px;
-background:transparent;
-color:#ff6600;
-font-weight:600;
-cursor:pointer;
-text-decoration:none;
-}
-
-.account-btn:hover{
-background:#ff6600;
-color:white;
-}
-
-/* TITLE */
-
+/* Title */
 .title{
-text-align:center;
-margin-top:40px;
-font-size:28px;
-font-weight:bold;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #ff6b35;
 }
 
-/* ADD PET BUTTON */
-
+/* Add Pet CTA */
 .add-btn{
-display:block;
-width:200px;
-margin:20px auto;
-text-align:center;
-padding:12px;
-background:#ff6600;
-color:white;
-text-decoration:none;
-border-radius:6px;
+    display: block;
+    width: max-content;
+    margin: 20px auto;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 700;
+    box-shadow: 0 4px 15px rgba(255,107,53,0.3);
+    transition: all 0.3s ease;
 }
 
-/* PET CARDS */
+.add-btn:hover{
+    background: linear-gradient(135deg, #ff5722 0%, #ff7339 100%);
+    transform: translateY(-2px);
+}
 
+/* Pet cards */
 .pets-container{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-gap:25px;
-margin-top:40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
 }
 
 .pet-card{
-background:white;
-padding:20px;
-width:220px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.2);
-text-align:center;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 18px rgba(255,107,53,0.15);
+    border: 1px solid rgba(255, 107, 53, 0.12);
+    text-align: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pet-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 10px 22px rgba(255,107,53,0.22);
+}
+
+.pet-card h3{
+    margin: 10px 0;
+    color: #ff6b35;
+}
+
+.pet-card p{
+    margin: 8px 0;
+    color: #555;
 }
 
 .delete{
-color:red;
-text-decoration:none;
+    display: inline-block;
+    margin-top: 12px;
+    color: #d63946;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.delete:hover{
+    text-decoration: underline;
+}
+
+@media (max-width: 768px){
+    .page-wrapper{
+        margin: 20px 10px 30px;
+        padding: 20px;
+    }
+
+    .title{
+        font-size: 1.8rem;
+    }
+
+    .add-btn{
+        width: 100%;
+        text-align: center;
+    }
 }
 
 </style>
@@ -94,18 +117,9 @@ text-decoration:none;
 
 <body>
 
-<header>
+{% include 'nav.html' %}
 
-<div class="logo">
-<img src="/images/LOGO-My PetCare.png">
-</div>
-
-<a href="/myaccount" class="account-btn">
-My Account
-</a>
-
-</header>
-
+<div class="page-wrapper">
 
 <div class="title">
 Your Pets 🐾
@@ -114,7 +128,6 @@ Your Pets 🐾
 <a href="/add_pet" class="add-btn">
 Add New Pet
 </a>
-
 
 <div class="pets-container">
 
@@ -134,6 +147,8 @@ Delete
 </div>
 
 {% endfor %}
+
+</div>
 
 </div>
 

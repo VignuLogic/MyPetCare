@@ -61,7 +61,7 @@ def login():
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["user_name"] = user["first_name"]
-            return redirect("/")
+            return redirect("/myaccount")
 
         else:
             return "Invalid name or password"

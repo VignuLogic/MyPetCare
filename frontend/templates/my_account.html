@@ -7,51 +7,135 @@
 
 /* Page background */
 body{
-    font-family: Arial;
-    background:#f4f4f4;
-    margin:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #fff9f1 0%, #fff1e8 100%);
+    margin: 0;
+    min-height: 100vh;
 }
 
-/* Top header bar */
-header{
-    background:#2e7d32;
-    color:white;
-    padding:15px 40px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
 
 /* Dashboard container */
 .container{
-    width:900px;
-    margin:40px auto;
-    background:white;
-    padding:30px;
-    border-radius:10px;
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Welcome Message */
+.container h3 {
+    color: #ff6b35;
+    font-size: 2em;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.container h3::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    margin-top: 10px;
 }
 
 /* Feature cards */
 .card{
-    background:#fafafa;
-    padding:20px;
-    margin-top:20px;
-    border-radius:8px;
-    border:1px solid #eee;
+    background: linear-gradient(135deg, #fff9f0 0%, #ffe5cc 100%);
+    padding: 35px;
+    margin: 25px 0;
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(255, 107, 53, 0.2);
+    background: linear-gradient(135deg, #ffe5cc 0%, #ffd4a3 100%);
+}
+
+.card h4 {
+    color: #ff6b35;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card p {
+    color: #666;
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    min-height: 40px;
 }
 
 /* Buttons */
+a {
+    text-decoration: none;
+}
+
 button{
-    padding:10px 20px;
-    background:#f2a22c;
-    border:none;
-    cursor:pointer;
-    color:white;
-    border-radius:5px;
+    padding: 12px 35px;
+    background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
 }
 
 button:hover{
-    background:#d88917;
+    background: linear-gradient(135deg, #ff5722 0%, #ff7339 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.5);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+
+/* Grid layout for cards */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 30px;
+        margin: 20px auto;
+    }
+    
+    .container h3 {
+        font-size: 1.5em;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .card {
+        padding: 25px;
+    }
 }
 
 </style>
@@ -60,25 +144,24 @@ button:hover{
 
 <body>
 
-<header>
-
-<h2>My PetCare Dashboard</h2>
-
-<a href="/logout" style="color:white; text-decoration:none;">Logout</a>
-
-</header>
+ {% include 'nav.html' %}
 
 
 <div class="container">
 
 <!-- Logged-in user -->
-<h3>Welcome {{ user_name }} </h3>
+<h3>Welcome {{ user_name }} 👋</h3>
 
+
+<!-- Cards Grid -->
+<div class="cards-grid">
 
 <!-- Add Pet -->
 <div class="card">
 
-<h4>Add New Pet</h4>
+<h4>➕ Add New Pet</h4>
+
+<p>Register your furry friend to get started with personalized care</p>
 
 <a href="/add_pet">
 <button>Add Pet</button>
@@ -90,9 +173,13 @@ button:hover{
 <!-- Pets List -->
 <div class="card">
 
-<h4>Your Pets</h4>
+<h4>📋 Your Pets</h4>
 
-<p>Pet list will appear here.</p>
+<p>View and manage all your pets in one place</p>
+
+<a href="/pets">
+<button>View Pets</button>
+</a>
 
 </div>
 
@@ -100,9 +187,11 @@ button:hover{
 <!-- Grooming -->
 <div class="card">
 
-<h4>Book Grooming</h4>
+<h4>✂️ Book Grooming</h4>
 
-<a href="/grooming">
+<p>Schedule professional grooming services for your pets</p>
+
+<a href="/booking">
 <button>Book Grooming</button>
 </a>
 
@@ -112,7 +201,9 @@ button:hover{
 <!-- Vaccination -->
 <div class="card">
 
-<h4>Vaccination Tracker</h4>
+<h4>💉 Vaccination Tracker</h4>
+
+<p>Keep track of vaccination schedules and health updates</p>
 
 <a href="/vaccination">
 <button>View Vaccination</button>
@@ -120,6 +211,33 @@ button:hover{
 
 </div>
 
+<!-- Health Tracker -->
+<div class="card">
+
+<h4>🏥 Health Tracker</h4>
+
+<p>Monitor your pet's health records and medical history</p>
+
+<a href="/health">
+<button>Track Health</button>
+</a>
+
+</div>
+
+<!-- Care Reminders -->
+<div class="card">
+
+<h4>⏰ Reminders</h4>
+
+<p>View upcoming vaccinations and grooming alerts</p>
+
+<a href="/reminders">
+<button>Set Reminders</button>
+</a>
+
+</div>
+
+</div>
 
 </div>
 

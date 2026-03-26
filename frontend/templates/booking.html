@@ -1,98 +1,711 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>Appointment Booking</title>
-        <style>
-            body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #9ae4ff;
-        }
+<head>
+<title>Book Grooming – MyPetCare</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-            /* FORM */
-
-.form-section{
-width:400px;
-margin:50px auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fff8f2;
+  min-height: 100vh;
 }
 
-input,select{
-width:100%;
-padding:10px;
-margin:10px 0;
-border:1px solid #ccc;
-border-radius:5px;
+/* ── TOP BAR ── */
+.top-bar {
+  background: #fff;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid #ffe8cc;
+}
+.top-bar a {
+  text-decoration: none;
+  color: #f2a22c;
+  font-weight: 700;
+  font-size: 15px;
+}
+.top-bar span { color: #ccc; }
+.top-bar h1 { font-size: 18px; color: #333; font-weight: 800; }
+
+/* ── HERO STRIP ── */
+.hero {
+  background: linear-gradient(135deg, #f2a22c 0%, #f7c56e 100%);
+  padding: 36px 40px;
+  color: white;
+}
+.hero h2 { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+.hero p  { font-size: 15px; opacity: 0.9; }
+
+/* ── SHOP BADGE ── */
+.shop-badge {
+  background: #fff;
+  border-left: 5px solid #f2a22c;
+  padding: 14px 20px;
+  margin: 30px auto;
+  max-width: 680px;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.shop-badge .icon { font-size: 28px; }
+.shop-badge .label { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.shop-badge .name  { font-size: 18px; font-weight: 800; color: #333; }
+
+/* ── FORM CARD ── */
+.form-card {
+  background: #fff;
+  max-width: 680px;
+  margin: 0 auto 50px;
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.08);
 }
 
-button{
-width:100%;
-padding:12px;
-background:#f2a22c;
-border:none;
-color:white;
-font-size:16px;
-border-radius:5px;
-cursor:pointer;
+.form-section {
+  margin-bottom: 28px;
 }
-.logo {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+.form-section h3 {
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: #f2a22c;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #ffe8cc;
+}
 
-        .logo img {
-            width: 190px;
-        }
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.form-row .field { flex: 1; }
 
-        </style>
-    </head>
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 6px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 14px;
+  color: #333;
+  background: #fafafa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #f2a22c;
+  box-shadow: 0 0 0 3px rgba(242,162,44,0.12);
+  background: #fff;
+}
+.field textarea { resize: vertical; min-height: 80px; }
 
-    <body>
-        
-            <div class="form-section" id="booking">
-                <div class="logo">
-        <img src="images/LOGO-My PetCare.png" alt="Logo" style="width:300px; height:auto;">
+/* Services grid */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.service-option {
+  position: relative;
+}
+.service-option input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.service-option label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px 10px;
+  border: 2px solid #eee;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  color: #555;
+  background: #fafafa;
+  transition: all 0.2s;
+  text-align: center;
+}
+.service-option label .emoji { font-size: 22px; }
+.service-option input:checked + label {
+  border-color: #f2a22c;
+  background: #fff6e8;
+  color: #f2a22c;
+}
+.service-option label:hover {
+  border-color: #f2a22c;
+  background: #fff6e8;
+}
+
+/* Time slots */
+.slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.slot-option {
+  position: relative;
+}
+.slot-option input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+.slot-option label {
+  display: block;
+  padding: 8px 18px;
+  border: 2px solid #eee;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s;
+}
+.slot-option input:checked + label {
+  border-color: #f2a22c;
+  background: #f2a22c;
+  color: white;
+}
+.slot-option label:hover {
+  border-color: #f2a22c;
+  color: #f2a22c;
+  background: #fff6e8;
+}
+
+/* Add-ons */
+.addon-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.addon-option {
+  position: relative;
+}
+.addon-option input[type="checkbox"] {
+  position: absolute; opacity: 0; width: 0; height: 0;
+}
+.addon-option label {
+  display: block;
+  padding: 7px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  background: #fafafa;
+  transition: all 0.2s;
+}
+.addon-option input:checked + label {
+  border-color: #f2a22c;
+  background: #fff6e8;
+  color: #c47d00;
+}
+
+/* Price summary */
+.price-box {
+  background: linear-gradient(135deg, #fff6e8 0%, #fff 100%);
+  border: 2px solid #ffe0a0;
+  border-radius: 12px;
+  padding: 20px 24px;
+}
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 14px;
+  color: #555;
+  border-bottom: 1px dashed #f0d09a;
+}
+.price-row:last-child { border-bottom: none; }
+.price-row.total {
+  font-size: 18px;
+  font-weight: 800;
+  color: #f2a22c;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+.price-row .amount { font-weight: 700; }
+
+/* Notes */
+.field input[type="text"]::placeholder,
+.field textarea::placeholder { color: #bbb; }
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #f2a22c, #f7c56e);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 20px rgba(242,162,44,0.35);
+  margin-top: 8px;
+}
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(242,162,44,0.45);
+}
+.submit-btn:active { transform: translateY(0); }
+
+/* Success modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px;
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+  transform: scale(0.85);
+  transition: transform 0.3s;
+}
+.modal-overlay.show .modal { transform: scale(1); }
+.modal .big-emoji { font-size: 56px; margin-bottom: 16px; }
+.modal h2 { font-size: 24px; font-weight: 800; color: #333; margin-bottom: 8px; }
+.modal p  { font-size: 14px; color: #777; line-height: 1.6; margin-bottom: 24px; }
+.modal-details {
+  background: #fff8f0;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  text-align: left;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.9;
+}
+.modal-details strong { color: #f2a22c; }
+.modal-btn {
+  background: #f2a22c;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Validation error */
+.error-msg {
+  color: #e53935;
+  font-size: 12px;
+  margin-top: 4px;
+  display: none;
+}
+.field.invalid input,
+.field.invalid select {
+  border-color: #e53935;
+}
+.field.invalid .error-msg { display: block; }
+
+/* Responsive */
+@media(max-width: 600px) {
+  .form-card { padding: 24px 20px; }
+  .form-row { flex-direction: column; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { padding: 24px 20px; }
+  .shop-badge { margin: 20px 16px; }
+  .form-card { margin: 0 16px 40px; }
+}
+</style>
+</head>
+<body>
+
+{% include 'nav.html' %}
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="/grooming">← Grooming</a>
+  <span>/</span>
+  <h1>Book Appointment</h1>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h2>🐾 Book Your Grooming Session</h2>
+  <p>Fill in the details below — we'll confirm your appointment shortly.</p>
+</div>
+
+<!-- SHOP BADGE -->
+<div class="shop-badge" id="shop-badge">
+  <div class="icon">✂️</div>
+  <div>
+    <div class="label">Grooming Salon</div>
+    <div class="name" id="shop-name-display">—</div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-card">
+  <form id="booking-form" method="POST" action="/submit_booking">
+
+    <!-- Hidden shop name -->
+    <input type="hidden" name="shop_name" id="shop_name_input">
+
+    <!-- ── SECTION 1: Your Details ── -->
+    <div class="form-section">
+      <h3>👤 Your Details</h3>
+      <div class="form-row">
+        <div class="field" id="field-owner">
+          <label for="owner_name">Owner Name *</label>
+          <input type="text" id="owner_name" name="owner_name"
+                 placeholder="Your full name"
+                 value="{{ session.get('user_name', '') }}">
+          <span class="error-msg">Please enter your name.</span>
+        </div>
+        <div class="field" id="field-phone">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone"
+                 placeholder="e.g. 9876543210"
+                 maxlength="10">
+          <span class="error-msg">Enter a valid 10-digit number.</span>
+        </div>
+      </div>
     </div>
-<h2>Book Grooming</h2>
 
-<form>
+    <!-- ── SECTION 2: Pet Details ── -->
+    <div class="form-section">
+      <h3>🐶 Pet Details</h3>
+      <div class="form-row">
+        <div class="field" id="field-pet">
+          <label for="pet_id">Select Pet *</label>
+          <select id="pet_id" name="pet_id">
+            <option value="">— Choose your pet —</option>
+            {% for pet in pets %}
+              <option value="{{ pet.id }}">{{ pet.pet_name }} ({{ pet.species }})</option>
+            {% endfor %}
+          </select>
+          <span class="error-msg">Please select a pet.</span>
+        </div>
+        <div class="field">
+          <label for="pet_breed">Breed <span style="color:#bbb;font-weight:400">(optional)</span></label>
+          <input type="text" id="pet_breed" name="pet_breed" placeholder="e.g. Golden Retriever">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field" id="field-size">
+          <label for="pet_size">Pet Size *</label>
+          <select id="pet_size" name="pet_size">
+            <option value="">— Select size —</option>
+            <option value="small">Small (under 5 kg)</option>
+            <option value="medium">Medium (5–15 kg)</option>
+            <option value="large">Large (15–30 kg)</option>
+            <option value="xlarge">X-Large (30+ kg)</option>
+          </select>
+          <span class="error-msg">Please select pet size.</span>
+        </div>
+        <div class="field">
+          <label for="pet_age">Age <span style="color:#bbb;font-weight:400">(optional)</span></label>
+          <input type="text" id="pet_age" name="pet_age" placeholder="e.g. 2 years">
+        </div>
+      </div>
+    </div>
 
-<input type="text" value="{{ user_name }}" name="owner_name" required>
-<input type="text" placeholder="Pet Name" required>
+    <!-- ── SECTION 3: Services ── -->
+    <div class="form-section">
+      <h3>✂️ Choose Services *</h3>
+      <div class="services-grid" id="services-grid">
+        <div class="service-option">
+          <input type="checkbox" id="svc_bath" name="services" value="bath">
+          <label for="svc_bath"><span class="emoji">🛁</span>Spa Bath<br><small style="font-weight:400;color:#aaa">₹300</small></label>
+        </div>
+        <div class="service-option">
+          <input type="checkbox" id="svc_full" name="services" value="full_groom">
+          <label for="svc_full"><span class="emoji">🧼</span>Full Grooming<br><small style="font-weight:400;color:#aaa">₹600</small></label>
+        </div>
+        <div class="service-option">
+          <input type="checkbox" id="svc_haircut" name="services" value="haircut">
+          <label for="svc_haircut"><span class="emoji">✂️</span>Hair Cut<br><small style="font-weight:400;color:#aaa">₹250</small></label>
+        </div>
+        <div class="service-option">
+          <input type="checkbox" id="svc_tick" name="services" value="anti_tick">
+          <label for="svc_tick"><span class="emoji">🧴</span>Anti Tick<br><small style="font-weight:400;color:#aaa">₹200</small></label>
+        </div>
+        <div class="service-option">
+          <input type="checkbox" id="svc_massage" name="services" value="massage">
+          <label for="svc_massage"><span class="emoji">💆</span>Massage<br><small style="font-weight:400;color:#aaa">₹350</small></label>
+        </div>
+        <div class="service-option">
+          <input type="checkbox" id="svc_nail" name="services" value="nail_trim">
+          <label for="svc_nail"><span class="emoji">💅</span>Nail Trim<br><small style="font-weight:400;color:#aaa">₹150</small></label>
+        </div>
+      </div>
+      <span class="error-msg" id="services-error" style="display:none;margin-top:8px">Please select at least one service.</span>
+    </div>
 
-<select>
-<option>Pet Type</option>
-<option>Dog</option>
-<option>Cat</option>
-<option>Fish</option>
-<option>Rabbit</option>
-<option>Hamster</option>
-</select>
+    <!-- ── SECTION 4: Date & Time ── -->
+    <div class="form-section">
+      <h3>📅 Date & Time</h3>
+      <div class="form-row">
+        <div class="field" id="field-date">
+          <label for="booking_date">Appointment Date *</label>
+          <input type="date" id="booking_date" name="booking_date">
+          <span class="error-msg">Please select a date.</span>
+        </div>
+      </div>
+      <label style="font-size:13px;font-weight:700;color:#555;display:block;margin-bottom:10px">
+        Preferred Time Slot *
+      </label>
+      <div class="slots">
+        <div class="slot-option">
+          <input type="radio" id="t1" name="time_slot" value="09:00 AM">
+          <label for="t1">9:00 AM</label>
+        </div>
+        <div class="slot-option">
+          <input type="radio" id="t2" name="time_slot" value="10:30 AM">
+          <label for="t2">10:30 AM</label>
+        </div>
+        <div class="slot-option">
+          <input type="radio" id="t3" name="time_slot" value="12:00 PM">
+          <label for="t3">12:00 PM</label>
+        </div>
+        <div class="slot-option">
+          <input type="radio" id="t4" name="time_slot" value="02:00 PM">
+          <label for="t4">2:00 PM</label>
+        </div>
+        <div class="slot-option">
+          <input type="radio" id="t5" name="time_slot" value="03:30 PM">
+          <label for="t5">3:30 PM</label>
+        </div>
+        <div class="slot-option">
+          <input type="radio" id="t6" name="time_slot" value="05:00 PM">
+          <label for="t6">5:00 PM</label>
+        </div>
+      </div>
+      <span class="error-msg" id="slot-error" style="display:none;margin-top:8px">Please select a time slot.</span>
+    </div>
 
-<input type="tel" placeholder="Phone Number">
-<label>Appointment Date</label>:<br>
-<input type="date" placeholder="Appointment Date">
-<label>Appointment Time</label>:<br>
-<input type="time" placeholder="Appointment Time">
+    <!-- ── SECTION 5: Add-ons ── -->
+    <div class="form-section">
+      <h3>✨ Add-ons <span style="font-weight:400;color:#bbb;font-size:11px;text-transform:none;letter-spacing:0">(optional)</span></h3>
+      <div class="addon-list">
+        <div class="addon-option">
+          <input type="checkbox" id="add_cologne" name="addons" value="cologne">
+          <label for="add_cologne">🌸 Pet Cologne +₹100</label>
+        </div>
+        <div class="addon-option">
+          <input type="checkbox" id="add_bow" name="addons" value="bow_bandana">
+          <label for="add_bow">🎀 Bow / Bandana +₹50</label>
+        </div>
+        <div class="addon-option">
+          <input type="checkbox" id="add_ear" name="addons" value="ear_cleaning">
+          <label for="add_ear">👂 Ear Cleaning +₹120</label>
+        </div>
+        <div class="addon-option">
+          <input type="checkbox" id="add_teeth" name="addons" value="teeth_brushing">
+          <label for="add_teeth">🦷 Teeth Brushing +₹150</label>
+        </div>
+        <div class="addon-option">
+          <input type="checkbox" id="add_photo" name="addons" value="photo">
+          <label for="add_photo">📸 After-groom Photo +₹80</label>
+        </div>
+      </div>
+    </div>
 
-<input type="text" placeholder="Address" required>
-<select>
-<option>Select Service</option>
-<option>Spa Bath</option>
-<option>Full Grooming</option>
-<option>Hair Cut</option>
-<option>Styling</option>
-<option>Anti Tick Treatment</option>
-<option>Body Massage</option>
+    <!-- ── SECTION 6: Notes ── -->
+    <div class="form-section">
+      <h3>📝 Special Notes</h3>
+      <div class="field">
+        <label for="notes">Any allergies, behavior notes, or special requests?</label>
+        <textarea id="notes" name="notes" placeholder="e.g. Bruno is nervous around loud dryers. Please be gentle."></textarea>
+      </div>
+    </div>
 
-</select>
+    <!-- ── PRICE SUMMARY ── -->
+    <div class="form-section">
+      <h3>💰 Price Estimate</h3>
+      <div class="price-box">
+        <div class="price-row" id="price-services-row" style="display:none">
+          <span>Services</span>
+          <span class="amount" id="price-services">₹0</span>
+        </div>
+        <div class="price-row" id="price-addons-row" style="display:none">
+          <span>Add-ons</span>
+          <span class="amount" id="price-addons">₹0</span>
+        </div>
+        <div class="price-row total">
+          <span>Total Estimate</span>
+          <span id="price-total">₹0</span>
+        </div>
+      </div>
+    </div>
 
-<button>Book Appointment</button>
+    <!-- SUBMIT -->
+    <button type="submit" class="submit-btn" onclick="return validateForm()">
+      🐾 Confirm Booking
+    </button>
 
-</form>
+  </form>
+</div>
 
-        </body>
-    </head>
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="big-emoji">🎉</div>
+    <h2>Booking Confirmed!</h2>
+    <p>Your grooming appointment has been booked. See you soon!</p>
+    <div class="modal-details" id="modal-details"></div>
+    <button class="modal-btn" onclick="window.location.href='/myaccount'">
+      Go to My Account
+    </button>
+  </div>
+</div>
+
+<script>
+// ── Read shop from URL query param ──
+const params = new URLSearchParams(window.location.search);
+const shopName = params.get('shop') || '';
+document.getElementById('shop-name-display').textContent = shopName || 'Walk-in / Any Salon';
+document.getElementById('shop_name_input').value = shopName;
+
+// ── Set min date to today ──
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('booking_date').min = today;
+
+// ── Price calculation ──
+const SERVICE_PRICES = {
+  bath: 300, full_groom: 600, haircut: 250,
+  anti_tick: 200, massage: 350, nail_trim: 150
+};
+const ADDON_PRICES = {
+  cologne: 100, bow_bandana: 50, ear_cleaning: 120,
+  teeth_brushing: 150, photo: 80
+};
+
+function updatePrice() {
+  let svcTotal = 0, addTotal = 0;
+
+  document.querySelectorAll('input[name="services"]:checked').forEach(cb => {
+    svcTotal += SERVICE_PRICES[cb.value] || 0;
+  });
+  document.querySelectorAll('input[name="addons"]:checked').forEach(cb => {
+    addTotal += ADDON_PRICES[cb.value] || 0;
+  });
+
+  const total = svcTotal + addTotal;
+
+  document.getElementById('price-services').textContent = '₹' + svcTotal;
+  document.getElementById('price-addons').textContent   = '₹' + addTotal;
+  document.getElementById('price-total').textContent    = '₹' + total;
+
+  document.getElementById('price-services-row').style.display = svcTotal > 0 ? 'flex' : 'none';
+  document.getElementById('price-addons-row').style.display   = addTotal > 0 ? 'flex' : 'none';
+}
+
+document.querySelectorAll('input[name="services"], input[name="addons"]').forEach(cb => {
+  cb.addEventListener('change', updatePrice);
+});
+
+// ── Validation ──
+function validateForm() {
+  let valid = true;
+
+  const checks = [
+    { field: 'field-owner',  input: 'owner_name', test: v => v.trim().length > 0 },
+    { field: 'field-phone',  input: 'phone',       test: v => /^\d{10}$/.test(v.trim()) },
+    { field: 'field-pet',    input: 'pet_id',      test: v => v !== '' },
+    { field: 'field-size',   input: 'pet_size',    test: v => v !== '' },
+    { field: 'field-date',   input: 'booking_date',test: v => v !== '' },
+  ];
+
+  checks.forEach(({ field, input, test }) => {
+    const el    = document.getElementById(field);
+    const value = document.getElementById(input).value;
+    if (!test(value)) {
+      el.classList.add('invalid');
+      valid = false;
+    } else {
+      el.classList.remove('invalid');
+    }
+  });
+
+  // Services check
+  const svcChecked = document.querySelectorAll('input[name="services"]:checked').length > 0;
+  document.getElementById('services-error').style.display = svcChecked ? 'none' : 'block';
+  if (!svcChecked) valid = false;
+
+  // Time slot check
+  const slotChecked = document.querySelector('input[name="time_slot"]:checked');
+  document.getElementById('slot-error').style.display = slotChecked ? 'none' : 'block';
+  if (!slotChecked) valid = false;
+
+  if (valid) {
+    showSuccess();
+    return true;  // allow form to POST
+  }
+  return false;
+}
+
+function showSuccess() {
+  const petEl   = document.getElementById('pet_id');
+  const petName = petEl.options[petEl.selectedIndex]?.text || '—';
+  const date    = document.getElementById('booking_date').value;
+  const slot    = document.querySelector('input[name="time_slot"]:checked')?.value || '';
+  const shop    = shopName || 'Walk-in';
+  const total   = document.getElementById('price-total').textContent;
+
+  const services = [...document.querySelectorAll('input[name="services"]:checked')]
+    .map(cb => cb.parentElement.querySelector('label').textContent.split('\n')[0].trim())
+    .join(', ');
+
+  document.getElementById('modal-details').innerHTML = `
+    <strong>Pet:</strong> ${petName}<br>
+    <strong>Salon:</strong> ${shop}<br>
+    <strong>Date:</strong> ${date} at ${slot}<br>
+    <strong>Services:</strong> ${services}<br>
+    <strong>Estimate:</strong> ${total}
+  `;
+  document.getElementById('modal').classList.add('show');
+}
+</script>
+
+</body>
 </html>
