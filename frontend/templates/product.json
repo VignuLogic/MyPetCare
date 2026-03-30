@@ -1,0 +1,44 @@
+[
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "Pedigree Adult Dog Food",
+    "img": "images/dog1.jpg",
+    "link": "https://www.amazon.in"
+  },
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "Drools Chicken Dog Food",
+    "img": "images/dog2.jpg",
+    "link": "https://www.amazon.in"
+  },
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "Royal Canin Adult",
+    "img": "images/dog3.jpg",
+    "link": "https://www.amazon.in"
+  },
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "Purepet Dog Food",
+    "img": "images/dog4.jpg",
+    "link": "https://www.amazon.in"
+  },
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "SmartHeart Dog Food",
+    "img": "images/dog5.jpg",
+    "link": "https://www.amazon.in"
+  },
+  {
+    "pet": "dog",
+    "category": "Daily Meals",
+    "name": "JerHigh Chicken Meal",
+    "img": "images/dog6.jpg",
+    "link": "https://www.amazon.in"
+  }
+]

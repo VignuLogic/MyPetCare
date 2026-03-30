@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pet Foods</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#f5f5f5,#ffe0c2,#ffd6e0);
+}
+
+/* HEADING */
+h1{
+text-align:left;
+padding:20px;
+}
+
+/* BANNER */
+.banner{
+display:flex;
+justify-content:center;
+}
+.banner img{
+width:95%;
+height:500px;
+object-fit:cover;
+border-radius:12px;
+}
+
+/* BRAND SECTION */
+.suggest{
+text-align:center;
+padding:25px;
+}
+
+.brands{
+display:flex;
+justify-content:center;
+gap:25px;
+flex-wrap:wrap;
+}
+
+.brand{
+text-align:center;
+}
+
+.brand img{
+width:80px;
+height:80px;
+border-radius:50%;
+object-fit:cover;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+transition:0.3s;
+}
+
+.brand img:hover{
+transform:scale(1.1);
+}
+
+.brand p{
+margin-top:8px;
+font-size:14px;
+}
+
+/* PET BUTTONS */
+.buttons{
+text-align:center;
+margin:20px;
+}
+
+.buttons button{
+padding:14px 30px;
+margin:8px;
+border:none;
+background:#ff7a00;
+color:white;
+border-radius:25px;
+font-size:17px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.buttons button:hover{
+background:black;
+}
+
+/* CATEGORY BUTTONS */
+.categories{
+text-align:center;
+margin:10px;
+}
+
+.categories button{
+padding:8px 18px;
+margin:5px;
+border:none;
+background:#ff7a00;
+color:white;
+border-radius:25px;
+font-size:13px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.categories button:hover{
+background:black;
+}
+
+/* PRODUCT GRID (UPDATED) */
+.products{
+display:none;
+grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+padding:30px;
+max-width:1050px;
+margin:auto;
+}
+
+/* GLASS CARD (UPDATED) */
+.card{
+background: rgba(255, 255, 255, 0.2);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+padding:20px;
+border-radius:18px;
+text-align:center;
+box-shadow:0 8px 25px rgba(0,0,0,0.1);
+border:1px solid rgba(255,255,255,0.3);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-6px);
+}
+
+/* IMAGE BIGGER */
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+/* TEXT */
+.card h4{
+margin-top:12px;
+font-size:16px;
+}
+
+/* BUY BUTTON */
+.buy{
+display:inline-block;
+margin-top:12px;
+padding:9px 18px;
+background:rgba(255,122,0,0.85);
+color:white;
+border-radius:20px;
+text-decoration:none;
+font-size:15px;
+transition:0.25s ease;
+border:1px solid rgba(255,255,255,0.3);
+}
+
+.buy:hover{
+background:#ff7a00;
+transform:translateY(-2px);
+box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Pet Foods</h1>
+
+<!-- BANNER -->
+<div class="banner">
+<img src="{{ url_for('static', filename='images/petfood banner.png') }}">
+</div>
+
+<!-- SUGGESTED BRANDS -->
+<div class="suggest">
+<h2>Suggested Brands</h2>
+
+<div class="brands">
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo1-Pedigree.png') }}">
+<p>Pedigree</p>
+</div>
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo2-Royal Canin.png') }}">
+<p>Royal Canin</p>
+</div>
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo3-Sheba.png') }}">
+<p>Sheba</p>
+</div>
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo4-NutriMeow.png') }}">
+<p>NutriMeow</p>
+</div>
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo5-Trixie.png') }}">
+<p>Trixie</p>
+</div>
+
+<div class="brand">
+<img src="{{ url_for('static', filename='images/logo6-Tetra.png') }}">
+<p>Tetra</p>
+</div>
+
+</div>
+</div>
+
+<!-- PET BUTTONS -->
+<div class="buttons">
+<button onclick="showCategory('dog')">Dog</button>
+<button onclick="showCategory('cat')">Cat</button>
+<button onclick="showCategory('hamster')">Hamster</button>
+<button onclick="showCategory('fish')">Fish</button>
+<button onclick="showCategory('rabbit')">Rabbit</button>
+</div>
+
+<!-- CATEGORY -->
+<div class="categories" id="catBox"></div>
+
+<!-- PRODUCTS -->
+<div class="products" id="productBox"></div>
+
+<script>
+
+let currentPet="";
+let allProducts=[];
+
+/* CATEGORY DATA */
+const categoryData = {
+  dog:["Daily Meals","Dry Food","Wet Food","Puppy Food"],
+  cat:["Dry Food","Wet Food","Veterinary Food"],
+  hamster:["Daily Essentials","Dry Food"],
+  fish:["Daily Feeding"],
+  rabbit:["Daily Essentials"]
+};
+
+/* FETCH JSON */
+fetch("product.json")
+.then(res => res.json())
+.then(data => {
+    allProducts = data;
+    showCategory('dog');
+    showProducts('Daily Meals');
+});
+
+/* SHOW CATEGORY */
+function showCategory(pet){
+  currentPet = pet;
+
+  let box = document.getElementById("catBox");
+  box.innerHTML="";
+
+  categoryData[pet].forEach(cat=>{
+    box.innerHTML += `<button onclick="showProducts('${cat}')">${cat}</button>`;
+  });
+}
+
+/* SHOW PRODUCTS */
+function showProducts(cat){
+
+  let filtered = allProducts.filter(p => 
+    p.pet === currentPet && p.category === cat
+  );
+
+  let container = document.getElementById("productBox");
+  container.innerHTML="";
+
+  filtered.forEach(p=>{
+    container.innerHTML += `
+    <div class="card">
+      <img src="${p.img}">
+      <h4>${p.name}</h4>
+      <a href="${p.link}" target="_blank" class="buy">Buy Now</a>
+    </div>
+    `;
+  });
+
+  container.style.display="grid";
+}
+
+</script>
+
+
+</body>
+</html>

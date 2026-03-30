@@ -246,5 +246,19 @@ scheduler.add_job(
 scheduler.start()
 
 
+
+import json
+import os
+
+@app.route("/product.json")
+def product_json():
+    file_path = os.path.join(app.root_path, "../frontend/templates/product.json")
+    
+    with open(file_path) as f:
+        data = json.load(f)
+    
+    return jsonify(data)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
