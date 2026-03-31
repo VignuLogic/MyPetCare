@@ -29,7 +29,7 @@ border-radius:12px;
 }
 
 /* PET BUTTONS */
-.buttons{
+/* .buttons{
 text-align:center;
 margin:20px;
 }
@@ -45,7 +45,7 @@ font-size:16px;
 }
 .buttons button:hover{
 background:black;
-}
+} */
 
 /* CATEGORY BUTTONS */
 .categories{
@@ -93,6 +93,29 @@ border-radius:10px;
 .card h4{
 margin-top:10px;
 }
+
+
+
+
+.pet-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px; margin-bottom: 50px;
+        }
+
+        .pet-card {
+            text-align: center; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--white); padding: 20px; border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .pet-card:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 10px 25px rgba(255,140,0,0.2); }
+
+        .img-wrap {
+            width: 150px; height: 150px; margin: 0 auto 15px;
+            border-radius: 50%; border: 5px solid var(--primary);
+            overflow: hidden; background: white;
+        }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .pet-card span { font-weight: 900; color: var(--primary); font-size: 1.2rem; }
+
 </style>
 </head>
 
@@ -108,14 +131,41 @@ margin-top:10px;
 </div>
 
 <!-- PET BUTTONS -->
-<div class="buttons">
+     <div class="pet-grid">
+        <div class="para">
+        <p>Select a pet to see their essentials</p>
+        </div>
+
+        <div class="pet-card" onclick="showCategory('Dog')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400"></div>
+            <span>DOGGO 🐶</span>
+        </div>
+        <div class="pet-card" onclick="showCategory('Cat')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400"></div>
+            <span>KITTY 🐱</span>
+        </div>
+        <div class="pet-card" onclick="showCategory('Fish')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400"></div>
+            <span>FISHY 🐠</span>
+        </div>
+        <div class="pet-card" onclick="showCategory('Hamster')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400"></div>
+            <span>HAMMY 🐹</span>
+        </div>
+        <div class="pet-card" onclick="showCategory('Rabbit')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400"></div>
+            <span>BUNNY 🐰</span>
+        </div>
+    </div>
+
+<!-- <div class="buttons">
     <p>Select a pet to see their essentials</p>
 <button onclick="showCategory('dog')">Dog</button>
 <button onclick="showCategory('cat')">Cat</button>
 <button onclick="showCategory('rabbit')">Rabbit</button>
 <button onclick="showCategory('hamster')">Hamster</button>
 <button onclick="showCategory('fish')">Fish</button>
-</div>
+</div> -->
 
 <!-- CATEGORY -->
 <div class="categories" id="catBox"></div>
