@@ -1,112 +1,261 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>Pet Needs</title>
 
 <style>
 body{
-    font-family: 'Segoe UI';
-    margin:0;
-    background:#f5f7fb;
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#f5f5f5,#ffe0c2,#ffd6e0);
 }
 
-.container{
-    width:90%;
-    margin:auto;
-    padding-top:40px;
-}
-
+/* TITLE */
 h1{
-    text-align:center;
-    margin-bottom:40px;
+text-align:center;
+padding:20px;
 }
 
-.product-grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+/* BANNER */
+.banner{
+display:flex;
+justify-content:center;
+}
+.banner img{
+width:95%;
+height: 500px;
+object-fit:cover;
+border-radius:12px;
 }
 
-.product-card{
-    background:white;
-    border-radius:12px;
-    padding:15px;
-    text-align:center;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    transition:.3s;
-    cursor:pointer;
+/* PET BUTTONS */
+.buttons{
+text-align:center;
+margin:20px;
+}
+.buttons button{
+padding:12px 25px;
+margin:8px;
+border:none;
+background:#ff7a00;
+color:white;
+border-radius:25px;
+cursor:pointer;
+font-size:16px;
+}
+.buttons button:hover{
+background:black;
 }
 
-.product-card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+/* CATEGORY BUTTONS */
+.categories{
+text-align:center;
+margin:15px;
+}
+.categories button{
+padding:8px 18px;
+margin:5px;
+border:none;
+background:#ff7a00;
+color:white;
+border-radius:20px;
+cursor:pointer;
+}
+.categories button:hover{
+background:black;
 }
 
-.product-card img{
-    width:100%;
-    height:180px;
-    object-fit:contain;
+/* PRODUCTS */
+.products{
+display:none;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+padding:30px;
+max-width:1000px;
+margin:auto;
 }
 
-.product-title{
-    font-weight:600;
-    margin-top:10px;
+.card{
+background:white;
+padding:15px;
+border-radius:12px;
+text-align:center;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-.price{
-    color:#ff6a00;
-    font-weight:bold;
-    margin-top:5px;
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.card h4{
+margin-top:10px;
 }
 </style>
 </head>
 
 <body>
 
-{% include 'nav.html' %}
+    {% include 'nav.html' %}
 
-<div class="container">
+<h1>Pet Needs</h1>
 
-<h1>Pet Needs 🐾</h1>
-
-<div class="product-grid">
-
-<!-- PRODUCT 1 -->
-<div class="product-card" onclick="openAmazon('https://amzn.to/example1')">
-<img src="{{ url_for('static', filename='images/leash.png') }}">
-<div class="product-title">Dog Leash</div>
-<div class="price">₹299</div>
+<!-- BANNER -->
+<div class="banner">
+<img src="images/pet-needs-banner.png">
 </div>
 
-<!-- PRODUCT 2 -->
-<div class="product-card" onclick="openAmazon('https://amzn.to/example2')">
-<img src="{{ url_for('static', filename='images/bowl.png') }}">
-<div class="product-title">Food Bowl</div>
-<div class="price">₹199</div>
+<!-- PET BUTTONS -->
+<div class="buttons">
+    <p>Select a pet to see their essentials</p>
+<button onclick="showCategory('dog')">Dog</button>
+<button onclick="showCategory('cat')">Cat</button>
+<button onclick="showCategory('rabbit')">Rabbit</button>
+<button onclick="showCategory('hamster')">Hamster</button>
+<button onclick="showCategory('fish')">Fish</button>
 </div>
 
-<!-- PRODUCT 3 -->
-<div class="product-card" onclick="openAmazon('https://amzn.to/example3')">
-<img src="{{ url_for('static', filename='images/toy.png') }}">
-<div class="product-title">Chew Toy</div>
-<div class="price">₹249</div>
-</div>
+<!-- CATEGORY -->
+<div class="categories" id="catBox"></div>
 
-<!-- PRODUCT 4 -->
-<div class="product-card" onclick="openAmazon('https://amzn.to/example4')">
-<img src="{{ url_for('static', filename='images/bed.png') }}">
-<div class="product-title">Pet Bed</div>
-<div class="price">₹899</div>
-</div>
-
-</div>
-
-</div>
+<!-- PRODUCTS -->
+<div class="products" id="productBox"></div>
 
 <script>
-function openAmazon(link){
-    window.open(link, "_blank");
+
+let currentPet="";
+
+/* CATEGORY DATA */
+const categoryData = {
+dog:["Toys","Clothes","Safety"],
+cat:["Toys","Clothes","Safety"],
+rabbit:["Toys","Clothes","Safety"],
+hamster:["Toys","Clothes","Safety"],
+fish:["Toys","Clothes","Safety"]
+};
+
+/* PRODUCT DATA (3 IMAGES PER CATEGORY) */
+const products = [
+
+/* DOG */
+{pet:"dog",cat:"Toys",img:"images/dog-toy1.jpg",name:"Dog Toy"},
+{pet:"dog",cat:"Toys",img:"images/dog-toy2.jpg",name:"Dog Toy"},
+{pet:"dog",cat:"Toys",img:"images/dog-toy3.jpg",name:"Dog Toy"},
+
+{pet:"dog",cat:"Clothes",img:"images/dog-cloth1.jpg",name:"Dog Clothes"},
+{pet:"dog",cat:"Clothes",img:"images/dog-cloth2.jpg",name:"Dog Clothes"},
+{pet:"dog",cat:"Clothes",img:"images/dog-cloth3.jpg",name:"Dog Clothes"},
+
+{pet:"dog",cat:"Safety",img:"images/dog-safe1.jpg",name:"Dog Belt"},
+{pet:"dog",cat:"Safety",img:"images/dog-safe2.jpg",name:"Dog Harness"},
+{pet:"dog",cat:"Safety",img:"images/dog-safe3.jpg",name:"Dog Seat Belt"},
+
+/* CAT */
+{pet:"cat",cat:"Toys",img:"images/cat-toy1.jpg",name:"Cat Toy"},
+{pet:"cat",cat:"Toys",img:"images/cat-toy2.jpg",name:"Cat Toy"},
+{pet:"cat",cat:"Toys",img:"images/cat-toy3.jpg",name:"Cat Toy"},
+
+{pet:"cat",cat:"Clothes",img:"images/cat-cloth1.jpg",name:"Cat Clothes"},
+{pet:"cat",cat:"Clothes",img:"images/cat-cloth2.jpg",name:"Cat Clothes"},
+{pet:"cat",cat:"Clothes",img:"images/cat-cloth3.jpg",name:"Cat Clothes"},
+
+{pet:"cat",cat:"Safety",img:"images/cat-safe1.jpg",name:"Cat Carrier"},
+{pet:"cat",cat:"Safety",img:"images/cat-safe2.jpg",name:"Cat Belt"},
+{pet:"cat",cat:"Safety",img:"images/cat-safe3.jpg",name:"Cat Harness"},
+
+/* RABBIT */
+{pet:"rabbit",cat:"Toys",img:"images/rabbit-toy1.jpg"},
+{pet:"rabbit",cat:"Toys",img:"images/rabbit-toy2.jpg"},
+{pet:"rabbit",cat:"Toys",img:"images/rabbit-toy3.jpg"},
+
+{pet:"rabbit",cat:"Clothes",img:"images/rabbit-cloth1.jpg"},
+{pet:"rabbit",cat:"Clothes",img:"images/rabbit-cloth2.jpg"},
+{pet:"rabbit",cat:"Clothes",img:"images/rabbit-cloth3.jpg"},
+
+{pet:"rabbit",cat:"Safety",img:"images/rabbit-safe1.jpg"},
+{pet:"rabbit",cat:"Safety",img:"images/rabbit-safe2.jpg"},
+{pet:"rabbit",cat:"Safety",img:"images/rabbit-safe3.jpg"},
+
+/* HAMSTER */
+{pet:"hamster",cat:"Toys",img:"images/hamster-toy1.jpg"},
+{pet:"hamster",cat:"Toys",img:"images/hamster-toy2.jpg"},
+{pet:"hamster",cat:"Toys",img:"images/hamster-toy3.jpg"},
+
+{pet:"hamster",cat:"Clothes",img:"images/hamster-cloth1.jpg"},
+{pet:"hamster",cat:"Clothes",img:"images/hamster-cloth2.jpg"},
+{pet:"hamster",cat:"Clothes",img:"images/hamster-cloth3.jpg"},
+
+{pet:"hamster",cat:"Safety",img:"images/hamster-safe1.jpg"},
+{pet:"hamster",cat:"Safety",img:"images/hamster-safe2.jpg"},
+{pet:"hamster",cat:"Safety",img:"images/hamster-safe3.jpg"},
+
+/* FISH */
+{pet:"fish",cat:"Toys",img:"images/fish-toy1.jpg"},
+{pet:"fish",cat:"Toys",img:"images/fish-toy2.jpg"},
+{pet:"fish",cat:"Toys",img:"images/fish-toy3.jpg"},
+
+{pet:"fish",cat:"Clothes",img:"images/fish-cloth1.jpg"},
+{pet:"fish",cat:"Clothes",img:"images/fish-cloth2.jpg"},
+{pet:"fish",cat:"Clothes",img:"images/fish-cloth3.jpg"},
+
+{pet:"fish",cat:"Safety",img:"images/fish-safe1.jpg"},
+{pet:"fish",cat:"Safety",img:"images/fish-safe2.jpg"},
+{pet:"fish",cat:"Safety",img:"images/fish-safe3.jpg"}
+
+];
+
+/* SHOW CATEGORY */
+function showCategory(pet){
+currentPet=pet;
+let box=document.getElementById("catBox");
+box.innerHTML="";
+
+categoryData[pet].forEach(c=>{
+box.innerHTML+=`<button onclick="showProducts('${c}')">${c}</button>`;
+});
 }
+
+/* SHOW PRODUCTS */
+function showProducts(cat){
+let filtered=products.filter(p=>p.pet===currentPet && p.cat===cat);
+
+let container=document.getElementById("productBox");
+container.innerHTML="";
+
+filtered.forEach(p=>{
+container.innerHTML+=`
+<div class="card">
+<img src="${p.img}">
+<h4>${p.name || cat}</h4>
+</div>
+`;
+});
+
+container.style.display="grid";
+}
+
+/* DEFAULT */
+window.onload=function(){
+showCategory('dog');
+showProducts('Toys');
+};
+
 </script>
+
+<br>
+<div style="
+    background:#fd4512;
+    color:white;
+    padding:15px;
+    text-align:center;
+    font-weight:bold;
+    font-size:1.2rem;
+    width:100%;
+">
+    © 2026 MyPetCare | Stay Pawsome! 🐾🍊✨
+</div>
 
 </body>
 </html>

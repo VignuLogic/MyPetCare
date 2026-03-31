@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetCare | Full Deluxe Edition</title>
+    <style>
+        :root {
+            --primary: #FF8C00;
+            --secondary: #FFA500;
+            --light-orange: #FFF4E6;
+            --white: #FFFFFF;
+            --text: #444;
+            --bg-color: #FFFFFF;
+        }
+
+        /* DARK MODE THEME */
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text: #f0f0f0;
+            --light-orange: #332200;
+            --white: #222;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+            color: var(--text);
+            background-image: url('https://www.transparenttextures.com/patterns/paws.png');
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        /* --- MASSIVE DOODLE COLLECTION --- */
+        .doodle {
+            position: fixed; font-size: 2.5rem; opacity: 0.15; z-index: -1;
+            animation: float 8s infinite ease-in-out; user-select: none;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-30px) rotate(15deg) scale(1.1); }
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white; padding: 60px 20px; text-align: center;
+            border-bottom: 10px solid #e67e00; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        header h1 { font-size: 3.5rem; margin: 0; text-shadow: 3px 3px 0px rgba(0,0,0,0.1); font-weight: 900; }
+
+        #live-clock {
+            position: absolute; top: 10px; right: 20px; background: rgba(0,0,0,0.2);
+            padding: 8px 15px; border-radius: 50px; font-weight: bold; font-size: 0.9rem;
+        }
+
+        /* NEW THEME TOGGLE */
+        #theme-btn {
+            position: absolute; top: 10px; left: 20px; background: white; border: none;
+            padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 4px 0 #ddd; transition: 0.2s;
+        }
+        #theme-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #ddd; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* NEW PROGRESS BAR */
+        .xp-container { background: #eee; border-radius: 20px; height: 12px; margin: 20px 0; overflow: hidden; border: 2px solid #ddd; }
+        #xp-bar { background: linear-gradient(to right, #4CAF50, #8BC34A); width: 10%; height: 100%; transition: 0.5s; }
+
+        .welcome-section { display: flex; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+
+        .info-card {
+            flex: 1; min-width: 300px; background: var(--light-orange);
+            padding: 25px; border-radius: 25px; border: 2px dashed var(--primary);
+            text-align: center; transition: 0.3s;
+        }
+
+        .pet-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 25px; margin-bottom: 50px;
+        }
+
+        .pet-card {
+            text-align: center; cursor: pointer; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--white); padding: 20px; border-radius: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .pet-card:hover { transform: scale(1.1) rotate(2deg); box-shadow: 0 10px 25px rgba(255,140,0,0.2); }
+
+        .img-wrap {
+            width: 150px; height: 150px; margin: 0 auto 15px;
+            border-radius: 50%; border: 5px solid var(--primary);
+            overflow: hidden; background: white;
+        }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        .pet-card span { font-weight: 900; color: var(--primary); font-size: 1.2rem; }
+
+        #disease-ui {
+            display: none; background: var(--white); padding: 40px; border-radius: 40px;
+            border: 3px solid var(--primary); margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(255,140,0,0.1);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes popIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .disease-flex { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 25px; }
+
+        .disease-tag {
+            background: var(--light-orange); border: 2px solid var(--primary);
+            color: var(--primary); padding: 12px 24px; border-radius: 50px;
+            font-weight: bold; cursor: pointer; transition: 0.2s;
+            display: flex; align-items: center; gap: 10px; font-size: 1.1rem;
+        }
+        .disease-tag span { font-size: 1.6rem; }
+        .disease-tag:hover { transform: translateY(-2px); background: #fff; }
+        .disease-tag.active { background: var(--primary); color: white; box-shadow: 0 5px 15px rgba(255,140,0,0.3); }
+
+        #medicine-display { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
+
+        .med-card {
+            background: var(--white); border-radius: 25px; padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 2px solid #fff; 
+            transition: 0.3s; animation: slideUp 0.5s ease forwards;
+        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .med-card h3 { display: flex; align-items: center; gap: 10px; font-size: 1.4rem; color: var(--primary); }
+
+        .chewy-btn {
+            display: block; background: var(--primary); color: white; text-align: center;
+            padding: 12px; text-decoration: none; border-radius: 12px; font-weight: bold;
+            margin-top: 15px; box-shadow: 0 4px 0 #cc7000;
+        }
+
+        .nutrition-section {
+            margin: 40px 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
+        }
+        .nutri-card { background: #e3f2fd; padding: 20px; border-radius: 20px; border-bottom: 5px solid #2196f3; color: #333; }
+
+        .bottom-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;
+        }
+
+        .checklist-card, .tips-card, .stats-card, .name-card {
+            background: var(--white); border-radius: 30px; padding: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border-left: 15px solid var(--primary);
+        }
+        .tips-card { border-left-color: #FFD700; background: #fffdf0; }
+        .stats-card { border-left-color: #4CAF50; grid-column: span 2; display: flex; justify-content: space-around; flex-wrap: wrap; }
+        
+        .stat-item { text-align: center; }
+        .stat-item h4 { font-size: 2.5rem; margin: 0; color: #4CAF50; }
+
+        /* NEW GALLERY */
+        .gallery-wrap { overflow-x: auto; display: flex; gap: 20px; padding: 20px 0; scrollbar-width: none; }
+        .gallery-item { min-width: 200px; height: 200px; border-radius: 20px; border: 5px solid white; overflow: hidden; box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+    </style>
+</head>
+<body onclick="createParticle(event)">
+
+   {% include 'nav.html' %}
+
+<div class="container">
+    <h2 style="text-align:center; font-weight:bold; margin-bottom:5px; color:var(--primary)">🏆 Pet Master Mastery Level</h2>
+    <div class="xp-container"><div id="xp-bar"></div></div> <br><br>
+
+    <div class="welcome-section">
+        <div class="info-card">
+            <h2>🧪 Expert Medicals</h2>
+            <p>"Keep a close eye on your pet's behavior. <br> Early detection of symptoms saves lives!" <br> 🩺✨</p>
+        </div>
+        <div class="info-card">
+            <h2>🏡 Safe Habitat</h2>
+            <p>"Create a toxic-free home. <br> Hide those chocolates and lilies from your furry pals!" <br> 🚫🍫</p>
+        </div>
+    </div>
+
+    <div class="pet-grid">
+        <div class="pet-card" onclick="loadDiseases('DOG')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=400"></div>
+            <span>DOGGO 🐶</span>
+        </div>
+        <div class="pet-card" onclick="loadDiseases('CAT')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400"></div>
+            <span>KITTY 🐱</span>
+        </div>
+        <div class="pet-card" onclick="loadDiseases('FISH')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?w=400"></div>
+            <span>FISHY 🐠</span>
+        </div>
+        <div class="pet-card" onclick="loadDiseases('HAMSTER')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1425082661705-1834bfd09dca?w=400"></div>
+            <span>HAMMY 🐹</span>
+        </div>
+        <div class="pet-card" onclick="loadDiseases('RABBIT')">
+            <div class="img-wrap"><img src="https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308?w=400"></div>
+            <span>BUNNY 🐰</span>
+        </div>
+    </div>
+
+    <div id="disease-ui">
+        <h2 id="pet-label" style="text-align:center; color: var(--primary); margin:0;"></h2>
+        <div id="disease-btns" class="disease-flex"></div>
+    </div>
+
+    <div id="medicine-display"></div>
+
+    <div class="name-card" style="margin-top:40px; text-align: center; border-left-color: #9c27b0;">
+        <h3 style="color: #9c27b0; margin-top: 0;">📛 Random Pet Name Generator</h3>
+        <p id="generated-name" style="font-size: 1.5rem; font-weight: 900; color: #444;">Click the button for a name! ✨</p>
+        <button onclick="generateName()" class="chewy-btn" style="background:#9c27b0; display:inline-block; padding: 10px 30px; cursor:pointer;">Generate 🐾</button>
+    </div> <br>
+
+    <h2 style="text-align:center; color: var(--primary); margin-top:50px;">🥗 Pet Superfoods Guide</h2>
+    <div class="nutrition-section">
+        <div class="nutri-card"><h3>🥦 For Dogs</h3><p>Carrots and Green Beans are great low-calorie snacks! 🥕</p></div>
+        <div class="nutri-card" style="background:#f3e5f5; border-color:#9c27b0;"><h3>🍗 For Cats</h3><p>Cooked Salmon provides essential Omega-3 for a shiny coat! 🐟</p></div>
+        <div class="nutri-card" style="background:#fff3e0; border-color:#ff9800;"><h3>🍎 Small Pets</h3><p>Timothy Hay is 80% of a rabbit's diet! Always keep it fresh. 🌾</p></div>
+    </div><br><br>
+
+    <div class="bottom-grid">
+        <div class="checklist-card">
+            <h3 style="color: var(--primary); margin-top: 0;">📋 Daily Wellness Log</h3>
+            <div class="checklist-item"><input type="checkbox" onclick="addXP()"> Hydration Check 💧</div>
+            <div class="checklist-item"><input type="checkbox" onclick="addXP()"> High-Protein Meal 🥩</div>
+            <div class="checklist-item"><input type="checkbox" onclick="addXP()"> Active Movement 🏃‍♂️</div>
+            <div class="checklist-item"><input type="checkbox" onclick="addXP()"> Dental Chew 🦷</div>
+        </div>
+
+        <div class="tips-card">
+            <h3 style="color: #d4af37; margin-top: 0;">💡 Pro Care Secret</h3>
+            <p id="tip-text" style="font-weight: bold; font-style: italic; color: #666;">"Select a pet above to reveal a hidden care secret! 🔐"</p>
+        </div><br>
+
+
+<script>
+    // --- PRESERVED ORIGINAL LOGIC ---
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('live-clock').innerText = "🕒 " + now.toLocaleTimeString();
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    function checkMood(m) {
+        addXP();
+        const status = document.getElementById('mood-status');
+        const msgs = {
+            happy: "Yay! Time for an extra long walk today! 🌳",
+            silly: "Sounds like someone needs their favorite squeaky toy! 🧸",
+            sleepy: "Shhh... let them nap. Growing is hard work! 💤",
+            hungry: "Don't resist those puppy eyes—check the food bowl! 🥣",
+            blessed: "They know they're loved. Give them a huge forehead kiss! 😘"
+        };
+        status.innerText = msgs[m];
+    }
+
+    const icons = {
+        "Heartworm Prevention": "🛡️", "Hip & Joint Support": "🦵", "Flea & Tick": "🐜", "Skin Allergies": "🧴", "Dental Health": "🦷", "Anxiety": "🧠", "Ear Infections": "👂",
+        "Urinary Care": "💦", "Kidney Disease": "🧪", "Hairballs": "🤮", "Hyperthyroidism": "🔥", "Flea Control": "🙅‍♂️", "Respiratory/Flu": "🤒", "Diabetes Support": "💉",
+        "Ich (White Spot)": "⚪", "Fin Rot": "🩹", "Ammonia Poisoning": "☣️", "Swim Bladder": "🎈", "Fungal Infection": "🍄", "Flukes Parasite": "🐛", "Velvet Disease": "💎",
+        "Wet Tail Disease": "🐹", "Respiratory": "🫁", "Mite Infestation": "🕷️", "Dental Overgrowth": "🥕", "Vitamin Deficiency": "💊", "Digestive Gas": "💨", "Fungal Skin": "🧴",
+        "GI Stasis": "🥬", "Ear Canker Mites": "👂", "Snuffles (Resp)": "🐰", "Urine Scald": "🚿", "E. Cuniculi": "🧬", "Sore Hocks": "👣", "Mange & Mites": "🐜"
+    };
+
+    const petDB = {
+        DOG: { "Heartworm Prevention": [{n:"Heartgard Plus", d:"1 Chew", w:"Monthly", u:"https://www.chewy.com/s?query=heartgard+plus"},{n:"Simparica Trio", d:"1 Tablet", w:"Monthly", u:"https://www.chewy.com/s?query=simparica+trio"},{n:"Sentinel Spectrum", d:"1 Chew", w:"Monthly", u:"https://www.chewy.com/s?query=sentinel+spectrum"}],"Hip & Joint Support": [{n:"Dasuquin with MSM", d:"1-2 Chews", w:"Daily", u:"https://www.chewy.com/s?query=dasuquin+dog"},{n:"Cosequin DS", d:"2 Chews", w:"Daily", u:"https://www.chewy.com/s?query=cosequin+dog"},{n:"Galliprant (Rx)", d:"2mg/kg", w:"Daily", u:"https://www.chewy.com/s?query=galliprant"}],"Flea & Tick": [{n:"NexGard", d:"1 Chew", w:"Monthly", u:"https://www.chewy.com/s?query=nexgard"},{n:"Bravecto", d:"1 Chew", w:"3 Months", u:"https://www.chewy.com/s?query=bravecto+dog"},{n:"Seresto Collar", d:"1 Collar", w:"8 Months", u:"https://www.chewy.com/s?query=seresto+dog"}],"Skin Allergies": [{n:"Apoquel (Rx)", d:"0.4mg/kg", w:"12h", u:"https://www.chewy.com/s?query=apoquel"},{n:"Zesty Paws Allergy", d:"2 Chews", w:"Daily", u:"https://www.chewy.com/s?query=zesty+paws+allergy"},{n:"Salmon Oil", d:"2 Pumps", w:"Mealtime", u:"https://www.chewy.com/s?query=salmon+oil+dog"}],"Dental Health": [{n:"Greenies Regular", d:"1 Treat", w:"Daily", u:"https://www.chewy.com/s?query=greenies"},{n:"Oxyfresh Water", d:"1 Cap", w:"Daily", u:"https://www.chewy.com/s?query=oxyfresh"},{n:"Virbac Toothpaste", d:"Brush", w:"Daily", u:"https://www.chewy.com/s?query=virbac+toothpaste"}],"Anxiety": [{n:"ThunderWunders", d:"2 Chews", w:"As needed", u:"https://www.chewy.com/s?query=thunderwunders"},{n:"Adaptil Diffuser", d:"Plug-in", w:"Monthly", u:"https://www.chewy.com/s?query=adaptil"},{n:"Purina Calming Care", d:"1 Packet", w:"Daily", u:"https://www.chewy.com/s?query=purina+calming"}],"Ear Infections": [{n:"Zymox Otic", d:"Full ear", w:"Daily", u:"https://www.chewy.com/s?query=zymox+otic"},{n:"Epi-Otic", d:"Flush", w:"Weekly", u:"https://www.chewy.com/s?query=epi-otic"},{n:"TrizUltra+Keto", d:"Flush", w:"Daily", u:"https://www.chewy.com/s?query=trizultra"}]},
+        CAT: { "Urinary Care": [{n:"Royal Canin SO", d:"Food", w:"Daily", u:"https://www.chewy.com/s?query=royal+canin+urinary+so+cat"},{n:"Feliway Classic", d:"Plug-in", w:"Monthly", u:"https://www.chewy.com/s?query=feliway"},{n:"Cosequin Cat", d:"1 Cap", w:"Daily", u:"https://www.chewy.com/s?query=cosequin+cat"}],"Kidney Disease": [{n:"AminAvast", d:"1 Cap", w:"12h", u:"https://www.chewy.com/s?query=aminavast"},{n:"Epakitin", d:"1 Scoop", w:"Mealtime", u:"https://www.chewy.com/s?query=epakitin"},{n:"Hill's k/d", d:"Food", w:"Daily", u:"https://www.chewy.com/s?query=hills+kd+cat"}],"Hairballs": [{n:"Laxatone Maple", d:"1 Inch", w:"Weekly", u:"https://www.chewy.com/s?query=laxatone"},{n:"Tomlyn Hairball", d:"1/2 tsp", w:"Daily", u:"https://www.chewy.com/s?query=tomlyn+hairball"},{n:"VetriScience Hairball", d:"2 Chews", w:"Daily", u:"https://www.chewy.com/s?query=vetriscience+hairball"}],"Hyperthyroidism": [{n:"Methimazole (Rx)", d:"2.5mg", w:"12h", u:"https://www.chewy.com/s?query=methimazole+cat"},{n:"Felimazole", d:"Vet Dose", w:"Daily", u:"https://www.chewy.com/s?query=felimazole"},{n:"Hill's y/d", d:"Food", w:"Daily", u:"https://www.chewy.com/s?query=hills+yd+cat"}],"Flea Control": [{n:"Revolution Plus", d:"Topical", w:"Monthly", u:"https://www.chewy.com/s?query=revolution+plus+cat"},{n:"Cheristin", d:"Topical", w:"Monthly", u:"https://www.chewy.com/s?query=cheristin"},{n:"Bravecto Plus", d:"Topical", w:"2 Months", u:"https://www.chewy.com/s?query=bravecto+cat"}],"Respiratory/Flu": [{n:"L-Lysine Powder", d:"500mg", w:"Daily", u:"https://www.chewy.com/s?query=lysine+cat"},{n:"Vetri Lysine Plus", d:"1 Chew", w:"12h", u:"https://www.chewy.com/s?query=lysine+chews"},{n:"Terramycin Eye", d:"Bead", w:"12h", u:"https://www.chewy.com/s?query=terramycin"}],"Diabetes Support": [{n:"ProZinc Insulin", d:"Units", w:"12h", u:"https://www.chewy.com/s?query=prozinc"},{n:"Bexacat", d:"15mg", w:"Daily", u:"https://www.chewy.com/s?query=bexacat"},{n:"Senvelgo", d:"Oral", w:"Daily", u:"https://www.chewy.com/s?query=senvelgo"}]},
+        FISH: { "Ich (White Spot)": [{n:"Ich-X Liquid", d:"5ml/10gal", w:"Daily", u:"https://www.chewy.com/s?query=ich-x"},{n:"API Super Ick Cure", d:"1 Pkt", w:"48h", u:"https://www.chewy.com/s?query=api+ick"},{n:"Kordon Ich Attack", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=ich+attack"}],"Fin Rot": [{n:"API Melafix", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=melafix"},{n:"Fritz Maracyn", d:"1 Pkt", w:"Daily", u:"https://www.chewy.com/s?query=maracyn"},{n:"Kanaplex", d:"1 Scoop", w:"48h", u:"https://www.chewy.com/s?query=kanaplex"}],"Ammonia Poisoning": [{n:"Seachem Prime", d:"1 Cap", w:"Daily", u:"https://www.chewy.com/s?query=seachem+prime"},{n:"API Ammo-Lock", d:"5ml", w:"48h", u:"https://www.chewy.com/s?query=ammo+lock"},{n:"Fritz Complete", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=fritz+complete"}],"Swim Bladder": [{n:"Aquarium Salt", d:"1 tsp/5gal", w:"Daily", u:"https://www.chewy.com/s?query=aquarium+salt"},{n:"MetroPlex", d:"1 Scoop", w:"48h", u:"https://www.chewy.com/s?query=metroplex"},{n:"General Cure", d:"1 Pkt", w:"48h", u:"https://www.chewy.com/s?query=general+cure"}],"Fungal Infection": [{n:"API Pimafix", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=pimafix"},{n:"Maracyn Oxy", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=maracyn+oxy"},{n:"Seachem Sulfaplex", d:"1 Scoop", w:"72h", u:"https://www.chewy.com/s?query=sulfaplex"}],"Flukes Parasite": [{n:"Prazipro", d:"1 tsp", w:"Once", u:"https://www.chewy.com/s?query=prazipro"},{n:"API General Cure", d:"1 Pkt", w:"48h", u:"https://www.chewy.com/s?query=general+cure"},{n:"Hikari Prazipro", d:"5ml", w:"Once", u:"https://www.chewy.com/s?query=hikari+prazipro"}],"Velvet Disease": [{n:"Cupramine", d:"Drops", w:"Once", u:"https://www.chewy.com/s?query=cupramine"},{n:"Copper Power", d:"Varies", w:"Once", u:"https://www.chewy.com/s?query=copper+power"},{n:"API Marine Melafix", d:"5ml", w:"Daily", u:"https://www.chewy.com/s?query=melafix+marine"}]},
+        HAMSTER: { "Wet Tail Disease": [{n:"Dri-Tail Drops", d:"3 drops", w:"Daily", u:"https://www.chewy.com/s?query=dri-tail"},{n:"Bene-Bac Plus", d:"Pea size", w:"Daily", u:"https://www.chewy.com/s?query=bene-bac+hamster"},{n:"Pedialyte", d:"Sip", w:"Daily", u:"https://www.chewy.com/s?query=pedialyte"}],"Respiratory": [{n:"Vetri Immune", d:"0.1ml", w:"Daily", u:"https://www.chewy.com/s?query=small+pet+immune"},{n:"Oxbow Vit C", d:"1/2 tab", w:"Daily", u:"https://www.chewy.com/s?query=oxbow+vitamin+c"},{n:"Supreme Hamster", d:"Food", w:"Daily", u:"https://www.chewy.com/s?query=supreme+hamster"}],"Mite Infestation": [{n:"Mite Spray Pet", d:"Mist", w:"Weekly", u:"https://www.chewy.com/s?query=small+pet+mite+spray"},{n:"Beaphar Spot-on", d:"1 drop", w:"Monthly", u:"https://www.chewy.com/s?query=beaphar+hamster"},{n:"Small Pet Wipes", d:"Clean", w:"Weekly", u:"https://www.chewy.com/s?query=small+pet+wipes"}],"Dental Overgrowth": [{n:"Apple Sticks", d:"Chew", w:"Always", u:"https://www.chewy.com/s?query=apple+sticks"},{n:"Lava Ledge", d:"Chew", w:"Always", u:"https://www.chewy.com/s?query=lava+ledge"},{n:"Whimzees Rice", d:"1 pcs", w:"Weekly", u:"https://www.chewy.com/s?query=whimzees+small"}],"Vitamin Deficiency": [{n:"Vita-Drops Oasis", d:"2 drops", w:"Daily", u:"https://www.chewy.com/s?query=hamster+vitamins"},{n:"Kaytee Multi-Vit", d:"1 drop", w:"Daily", u:"https://www.chewy.com/s?query=kaytee+vitamin"},{n:"Oxbow Multi-Vit", d:"1 tab", w:"Daily", u:"https://www.chewy.com/s?query=oxbow+multivitamin"}],"Digestive Gas": [{n:"Sherwood Digestive", d:"1 tab", w:"Daily", u:"https://www.chewy.com/s?query=sherwood+digestive"},{n:"Oxbow Papaya", d:"1-2 tabs", w:"Daily", u:"https://www.chewy.com/s?query=papaya+support"},{n:"Critical Care", d:"Feed", w:"4h", u:"https://www.chewy.com/s?query=critical+care"}],"Fungal Skin": [{n:"Vetericyn Spray", d:"Mist", w:"12h", u:"https://www.chewy.com/s?query=vetericyn+small+pet"},{n:"Silver Honey Gel", d:"Apply", w:"Daily", u:"https://www.chewy.com/s?query=silver+honey"},{n:"Small Pet Clean", d:"Wipe", w:"Daily", u:"https://www.chewy.com/s?query=hamster+skin+care"}]},
+        RABBIT: { "GI Stasis": [{n:"Critical Care Oxbow", d:"Feed", w:"4h", u:"https://www.chewy.com/s?query=critical+care+oxbow"},{n:"Sherwood Recovery", d:"Scoop", w:"Daily", u:"https://www.chewy.com/s?query=sherwood+recovery"},{n:"Simethicone Infant", d:"1ml", w:"Hourly", u:"https://www.chewy.com/s?query=infant+simethicone"}],"Ear Canker Mites": [{n:"Rabbit Ear Care", d:"2 drops", w:"Daily", u:"https://www.chewy.com/s?query=rabbit+ear+care"},{n:"Zymox Small Pet", d:"Flush", w:"Daily", u:"https://www.chewy.com/s?query=zymox+small+pet"},{n:"Epi-Otic Rabbit", d:"Clean", w:"Weekly", u:"https://www.chewy.com/s?query=small+pet+ear+cleaner"}],"Snuffles (Resp)": [{n:"Vetri Lysine Plus", d:"1/2 tab", w:"Daily", u:"https://www.chewy.com/s?query=lysine+rabbit"},{n:"Oxbow Immune", d:"1 tab", w:"Daily", u:"https://www.chewy.com/s?query=oxbow+immune"},{n:"Critical Care Herb", d:"Feed", w:"4h", u:"https://www.chewy.com/s?query=critical+care"}],"Urine Scald": [{n:"Vetericyn Spray", d:"Mist", w:"12h", u:"https://www.chewy.com/s?query=vetericyn+small+pet"},{n:"Silver Honey Spray", d:"Apply", w:"Daily", u:"https://www.chewy.com/s?query=silver+honey"},{n:"Rabbit Wipes", d:"Clean", w:"Daily", u:"https://www.chewy.com/s?query=rabbit+wipes"}],"E. Cuniculi": [{n:"Panacur Rabbit", d:"Vet dose", w:"28 days", u:"https://www.chewy.com/s?query=panacur+rabbit"},{n:"Metacam Pain", d:"Drops", w:"12h", u:"https://www.chewy.com/s?query=metacam"},{n:"Fenbendazole", d:"Paste", w:"Daily", u:"https://www.chewy.com/s?query=fenbendazole"}],"Sore Hocks": [{n:"Bag Balm Cream", d:"Apply", w:"Daily", u:"https://www.chewy.com/s?query=bag+balm"},{n:"Vetericyn Gel", d:"Apply", w:"12h", u:"https://www.chewy.com/s?query=vetericyn+gel"},{n:"Rabbit Socks", d:"Wear", w:"Daily", u:"https://www.chewy.com/s?query=rabbit+socks"}],"Mange & Mites": [{n:"Advantage II", d:"Topical", w:"Monthly", u:"https://www.chewy.com/s?query=advantage+rabbit"},{n:"Beaphar Spot On", d:"Drop", w:"Monthly", u:"https://www.chewy.com/s?query=small+pet+spot+on"},{n:"Revolution (Rx)", d:"Topical", w:"Monthly", u:"https://www.chewy.com/s?query=revolution+rabbit"}]}
+    };
+
+    const tips = [
+        "Cats prefer their water bowl away from their food bowl! 🥤",
+        "Dogs can understand up to 250 words and gestures! 🧠",
+        "Goldfish can remember things for up to five months! 🐠",
+        "Rabbits binky (jump and twist) when they are happy! 🐇",
+        "Hamsters run up to 5 miles on their wheel in one night! 🎡"
+    ];
+
+    function loadDiseases(pet) {
+        addXP();
+        const ui = document.getElementById('disease-ui');
+        const btnBox = document.getElementById('disease-btns');
+        const medBox = document.getElementById('medicine-display');
+        const tipBox = document.getElementById('tip-text');
+
+        ui.style.display = 'block';
+        btnBox.innerHTML = ''; medBox.innerHTML = '';
+        document.getElementById('pet-label').innerText = "🐾 Deluxe " + pet + " Pharmacy ✨";
+        
+        tipBox.innerText = tips[Math.floor(Math.random() * tips.length)];
+
+        Object.keys(petDB[pet]).forEach(dis => {
+            const b = document.createElement('button');
+            b.className = 'disease-tag'; 
+            b.innerHTML = `<span>${icons[dis] || '💊'}</span> ${dis}`;
+            b.onclick = () => {
+                document.querySelectorAll('.disease-tag').forEach(t => t.classList.remove('active'));
+                b.classList.add('active');
+                showMeds(pet, dis);
+            };
+            btnBox.appendChild(b);
+        });
+    }
+
+    function showMeds(pet, dis) {
+        addXP();
+        const medBox = document.getElementById('medicine-display');
+        medBox.innerHTML = '';
+        petDB[pet][dis].forEach((m, idx) => {
+            const card = document.createElement('div');
+            card.className = 'med-card';
+            card.style.animationDelay = (idx * 0.1) + 's';
+            card.innerHTML = `
+                <h3><span>${icons[dis] || '💊'}</span> ${m.n} 🌟</h3>
+                <p><b>Target:</b> ${dis} 🎯</p>
+                <p><b>Dose:</b> ${m.d} ⚖️ | <b>When:</b> ${m.w} 🕒</p>
+                <a href="${m.u}" target="_blank" class="chewy-btn">Shop on Chewy 🛒</a>
+            `; 
+            medBox.appendChild(card);
+        });
+    }
+
+    // --- NEW DELUXE FEATURES LOGIC ---
+
+
+    // 2. XP Progress Logic
+    let currentXP = 10;
+    function addXP() {
+        if(currentXP) {
+            currentXP += 5;
+            document.getElementById('xp-bar').style.width = currentXP + "%";
+        }
+    }
+
+    // 3. Name Generator
+    function generateName() {
+        addXP();
+        const names = ["Nugget", "Simba", "Coco", "Belly", "Mochi", "Toast", "Luna", "Biscuit", "Oreo", "Waffles", "Peanut", "Zola"];
+        const randomName = names[Math.floor(Math.random() * names.length)];
+        document.getElementById('generated-name').innerText = "Your pet's name is: " + randomName + "! 🐾";
+    }
+
+</script>
+</body>
+</html>
